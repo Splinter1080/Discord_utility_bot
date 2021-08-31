@@ -156,5 +156,4 @@ async function weather(message){
 
   
 }
-
-console.log("Music works !!") ; 
+ 
