@@ -1,8 +1,12 @@
 const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
+const axios = require('axios');
+
+
 const {
 	prefix,
 	token,
+  weatherToken
 } = require('./config.json');
 const client = new Discord.Client();
 client.login(token);
@@ -34,6 +38,9 @@ client.on('message' , async message => {
         stop(message, serverQueue) ;
         return ;  
     } 
+    else if(message.content.startsWith(`${prefix}weather`)){
+      weather(message) ; 
+    }
     else {
         message.channel.send("Enter a valid next time ! Lmao noob !")
     }
@@ -123,6 +130,31 @@ function play(guild, song) {
     .on("error", error => console.error(error));
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
   serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+}
+async function weather(message){
+  const args = message.content.split(" ") ;
+  // console.log(args[1]) ; 
+  if(args[1]){
+    const url = `http://api.weatherapi.com/v1/current.json?key=${weatherToken}&q=${args[1]}&aqi=no` ; 
+    axios.get(url)
+    .then(function (response) {
+      console.log(response.data) ; 
+       message.channel.send(
+        ` Current temperature is : ${response.data.current.temp_c}°C
+         *${response.data.current.condition.text}*` 
+      );
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+  }
+  else{
+    message.channel.send("Please enter the city/region that you are looking for !"); 
+    return ; 
+  }
+
+  
 }
 
 console.log("Music works !!") ; 
