@@ -18,45 +18,50 @@ module.exports.execute = async (message, serverQueue) => {
             "I think you forgot to give me permission to speak or connect "
         ) ;
     }
-    // if(args.length > 2)
-    //   console.log(args.length) ;
-    var songName = ""; 
-    for(let i = 1 ; i < args.length ; ++i)
-    {
-      songName += args[i] + " "; 
-    } 
-    console.log(songName);
-    const songInfo = await ytSearch(songName) ;
-    //console.log(songInfo[0]) ; 
-    const song = { title : songInfo.all[0].title , url: songInfo.all[0].url }; 
-    //console.log(song) ; 
-    if(!serverQueue){
-        const queueConstruct = {
-            textChannel : message.channel , 
-            voiceChannel : voiceChannel , 
-            connection : null , 
-            songs: [] , 
-            volume : 6 , 
-            playing : true , 
-        } ; 
-        queue.set(message.guild.id , queueConstruct);
-        queueConstruct.songs.push(song) ; 
-        try{
-            var connection = await voiceChannel.join();
-            queueConstruct.connection = connection; 
-            play(message.guild , queueConstruct.songs[0]) ; 
-        } catch(err) {  //if it fails to join the voice channel somehow
-            console.log(err) ; 
-            
-            queue.delete(message.guild.id) ; 
-            return message.channel.send(err) ; 
-        }
+    if(args.length > 2){
+      var songName = ""; 
+      for(let i = 1 ; i < args.length ; ++i)
+      {
+        songName += args[i] + " "; 
+      } 
+      console.log(songName);
+      const songInfo = await ytSearch(songName) ;
+      //console.log(songInfo[0]) ; 
+      const song = { title : songInfo.all[0].title , url: songInfo.all[0].url }; 
+      //console.log(song) ; 
+      if(!serverQueue){
+          const queueConstruct = {
+              textChannel : message.channel , 
+              voiceChannel : voiceChannel , 
+              connection : null , 
+              songs: [] , 
+              volume : 6 , 
+              playing : true , 
+          } ; 
+          queue.set(message.guild.id , queueConstruct);
+          queueConstruct.songs.push(song) ; 
+          try{
+              var connection = await voiceChannel.join();
+              queueConstruct.connection = connection; 
+              play(message.guild , queueConstruct.songs[0]) ; 
+          } catch(err) {  //if it fails to join the voice channel somehow
+              console.log(err) ; 
+              
+              queue.delete(message.guild.id) ; 
+              return message.channel.send(err) ; 
+          }
+      }
+      else{
+          serverQueue.songs.push(song) ; 
+          console.log(serverQueue.songs) ; 
+          return message.channel.send(`${song.title} has been to the queue`) ; 
+      }
     }
     else{
-        serverQueue.songs.push(song) ; 
-        console.log(serverQueue.songs) ; 
-        return message.channel.send(`${song.title} has been to the queue`) ; 
+      message.reply("Please enter a song name or a link ") ; 
     }
+    //   console.log(args.length) ;
+
     
 }
 module.exports.skip = async (message, serverQueue) => {
