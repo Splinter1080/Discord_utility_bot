@@ -1,8 +1,8 @@
 const axios = require('axios');
-const {
-  weatherToken
-} = require('../config.json');
-
+// const {
+//   weatherToken
+// } = require('../config.json');
+const weatherToken = process.env.WEATTHERTOKEN ; 
 module.exports.weatherGet = async (message) => {
     const args = message.content.split(" ") ;
     // console.log(args[1]) ; 
