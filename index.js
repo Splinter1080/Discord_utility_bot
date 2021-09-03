@@ -7,7 +7,7 @@ const deleteMsg = require('./src/deleteMsg') ;
 const songPlayer = require('./src/songPlayer');
 const dotenv = require('dotenv');
 dotenv.config();
-console.log(`${process.env.PREFIX}`)
+//console.log(`${process.env.PREFIX}`)
 // const {
 // 	prefix,
 // 	token,
