@@ -53,11 +53,11 @@ client.on('message' , async message => {
     }
     else if(message.content.startsWith(`${prefix}help`) || message.content.startsWith(`${prefix}h`)){
         message.channel.send(`Hi !!
-        use **!play** or **!p** for playing music
-                **!skip** for skipping a song
-                **!stop** to stop the bot from playing music
-                **!weather** or **!w** *<cityname>* to get weather updates
-                **!delete** or **!d** *<number>* to delete messages from the thread`)
+        use **,play** or **,p** for playing music
+                **,skip** for skipping a song
+                **,stop** to stop the bot from playing music
+                **,weather** or **,w** *<cityname>* to get weather updates
+                **,delete** or **,d** *<number>* to delete messages from the thread`)
     }
     else {
         message.channel.send("Enter a valid query next time ! Lmao noob !")
